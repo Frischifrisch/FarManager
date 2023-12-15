@@ -28,7 +28,7 @@ def check(in_filename, out_filename):
 				if s.startswith("upd:"):
 					s = s[4:]
 				if s == en_str and s != '""':
-					content[i + l] = "upd:" + s
+					content[i + l] = f"upd:{s}"
 				l += 1
 
 			i += lang_count

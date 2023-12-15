@@ -4,17 +4,18 @@
 """Find files with letters in russian windows-1251 encoding.
 
 windows-1251 is a single byte encoding with a range 0xC0-0xFF
-and 0xA8,0xB8 for symbols ∏ and ® respectfully. Unfortunately,
+and 0xA8,0xB8 for symbols —ë and –Å respectfully. Unfortunately,
 russian symbols in windows-1251 clash with russian symbols in
 utf-8, where they take two bytes in the ranges:
 
- - 0xD081         ®
- - 0xD090-0xD0BF  ¿-Ô
- - 0xD180-0xD18F  Ô-ˇ
- - 0xD191         ∏
+ - 0xD081         –Å
+ - 0xD090-0xD0BF  –ê-–ø
+ - 0xD180-0xD18F  –ø-—è
+ - 0xD191         —ë
 
 This code ignores lines with <!-- NLC --> marker.
 """
+
 # pythonized by techtonik // gmail.com
 
 
@@ -24,7 +25,7 @@ import os
 import re
 import sys
 
-#sys.stdout.write("˚‚‡".decode("windows-1251"))
+#sys.stdout.write("—ã–≤–∞".decode("windows-1251"))
 
 
 args = [arg for arg in sys.argv[1:] if not arg.startswith('-')]
@@ -48,10 +49,10 @@ opts:
 #reload(sys)
 #sys.setdefaultencoding("cp866")
 
-#print "‚Ù‡˚‚›".decode("cp1251")
+#print "–≤—Ñ–∞—ã–≤–≠".decode("cp1251")
 
 #sw = codecs.lookup("cp866")[-1](sys.stdout)
-#sw.write("sdfÙ˚‚›")
+#sw.write("sdf—Ñ—ã–≤–≠")
 
 dirs_exclude = ['.svn', '.git']
 files_exclude = ['*.gif', '*.png', '*.jpg', '*.exe', '*.ico', '*.msi', '*.rar']
@@ -68,7 +69,7 @@ skip_mark = "<!-- NLC -->"
 for root,dirs,files in os.walk(args[0]):
 
   # exclude dirs by modifying dirs in place
-  dirs[:] = [d for d in dirs if not d in dirs_exclude]
+  dirs[:] = [d for d in dirs if d not in dirs_exclude]
 
   for f in files:
     # exclude files by skipping them
@@ -88,11 +89,11 @@ for root,dirs,files in os.walk(args[0]):
       rutext = "".join(cp1251.findall(noutf))
       rucount += len(rutext)
       if rutext and ('--lines' in sys.argv):
-          sys.stdout.write("  line {}: ".format(i+1))
-          sys.stdout.write(rutext.decode("windows-1251").encode('utf-8'))
-          #print(rutext.decode("cp1251"))
-          #print("\n    ", noutf.encode('hex')
-          sys.stdout.write("\n")
+        sys.stdout.write(f"  line {i + 1}: ")
+        sys.stdout.write(rutext.decode("windows-1251").encode('utf-8'))
+        #print(rutext.decode("cp1251"))
+        #print("\n    ", noutf.encode('hex')
+        sys.stdout.write("\n")
 
     if rucount:
       print("%s - %d russian (cp1251) symbols" % (os.path.join(root, f), rucount))

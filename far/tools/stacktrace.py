@@ -73,10 +73,10 @@ def parse_gcc(map_file, map_data):
 		m = re_file.search(line)
 		if m is not None:
 			m = re_file_name.search(last_line)
-			if m is not None:
-				file_name = m.group(1)
-				last_line = None
-				continue
+		if m is not None:
+			file_name = m.group(1)
+			last_line = None
+			continue
 
 		m = re_symbol.search(line)
 		if m is not None:
