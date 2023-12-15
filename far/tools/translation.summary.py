@@ -4,7 +4,7 @@ def ignore(line):
 
 def print_summary(summary):
 	for language, data in summary.items():
-		with open(language.split()[1] + ".txt", "w", encoding='utf-8-sig') as outFile:
+		with open(f"{language.split()[1]}.txt", "w", encoding='utf-8-sig') as outFile:
 			keyLen = max(map(len, data))
 			valueLen = max(map(len, data.values()))
 			for item, str in data.items():

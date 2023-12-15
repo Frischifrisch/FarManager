@@ -37,31 +37,31 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 def make_inet_lang(lang):
   """@param lang : either 'rus*' or 'eng*'"""
-  lang_code = lang[0:2]
+  lang_code = lang[:2]
 
   log("------------------------------------")
-  log("preparing %s " % lang_code)
+  log(f"preparing {lang_code} ")
 
   inet_meta_dir = join(DEST_INET, lang_code, "meta")
   makedirs(inet_meta_dir)
 
   log("copying files")
-  copytree("%s/enc_%s/images" % (ROOT_DIR, lang), "%s/images" % (DEST_INET))
-  copytree("%s/enc_%s/meta" % (ROOT_DIR, lang), "%s/%s" % (DEST_INET, lang_code))
+  copytree(f"{ROOT_DIR}/enc_{lang}/images", f"{DEST_INET}/images")
+  copytree(f"{ROOT_DIR}/enc_{lang}/meta", f"{DEST_INET}/{lang_code}")
 
 # end def make_inet_lang(lang):
 
 
 
 log("preparing INET build")
-log("-- cleaning build dir " + DEST)
+log(f"-- cleaning build dir {DEST}")
 if isdir(DEST): shutil.rmtree(DEST)
 makedirs(DEST)
 logfile = logging.FileHandler(BUILD_INET_LOG, "w", encoding="utf-8")
 logging.getLogger().addHandler(logfile)
 
 
-log("-- output dir " + DEST_INET)
+log(f"-- output dir {DEST_INET}")
 makedirs(DEST_INET)
 makedirs(join(DEST_INET,"images"))
 makedirs(join(DEST_INET,"styles"))
@@ -70,8 +70,8 @@ make_inet_lang("rus")
 #make_inet_lang("eng")
 
 log("-- copying index files")
-shutil.copy(ROOT_DIR+"/tools/inet/index.html", DEST_INET)
-shutil.copy(ROOT_DIR+"/tools/inet/farenclogo.gif", join(DEST_INET,"images"))
-shutil.copy(ROOT_DIR+"/tools/inet/styles.css", join(DEST_INET,"styles"))
+shutil.copy(f"{ROOT_DIR}/tools/inet/index.html", DEST_INET)
+shutil.copy(f"{ROOT_DIR}/tools/inet/farenclogo.gif", join(DEST_INET,"images"))
+shutil.copy(f"{ROOT_DIR}/tools/inet/styles.css", join(DEST_INET,"styles"))
 
-log("-- done. check build log at %s" % BUILD_INET_LOG)
+log(f"-- done. check build log at {BUILD_INET_LOG}")

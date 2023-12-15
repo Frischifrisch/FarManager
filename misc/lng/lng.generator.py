@@ -25,11 +25,11 @@ def crc32(file_name):
 	with open(file_name, 'rb') as f:
 		hash = 0
 		while True:
-			s = f.read(65536)
-			if not s:
-				break
-			hash = zlib.crc32(s, hash)
+			if s := f.read(65536):
+				hash = zlib.crc32(s, hash)
 
+			else:
+				break
 	return hash & 0xFFFFFFFF
 
 def main():
@@ -97,7 +97,7 @@ def main():
 		return int(config.get(section, "CRC32", fallback = 0))
 
 	def set_ini(section, value):
-		if not section in config:
+		if section not in config:
 			config[section] = {}
 		config[section]["CRC32"] = str(value)
 
@@ -181,7 +181,7 @@ def main():
 			update = False
 		else:
 			set_ini(full_name, new_crc)
-	
+
 		if update:
 			shutil.move(out_file.name, full_name)
 

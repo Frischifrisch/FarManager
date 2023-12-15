@@ -16,14 +16,13 @@ def check_links(dir_to_check):
     for f in files:
       if (not f.endswith(".html")):
         continue
-      infile = open(join(root, f), encoding="utf-8-sig")
-      for line in infile:
-        for r in link_match.findall(line):
-          if (r[1].startswith(("http:", "https:", "mailto:", "ftp:", "news:", "mk:"))):
-            continue
-          if (not isfile(join(root, r[1]))):
-            print("%s - %s" % (join(root, f)[len(dir_to_check)+1:], r[1]))
-      infile.close()
+      with open(join(root, f), encoding="utf-8-sig") as infile:
+        for line in infile:
+          for r in link_match.findall(line):
+            if (r[1].startswith(("http:", "https:", "mailto:", "ftp:", "news:", "mk:"))):
+              continue
+            if (not isfile(join(root, r[1]))):
+              print(f"{join(root, f)[len(dir_to_check) + 1:]} - {r[1]}")
 
 check_links(join(ROOT_DIR,"enc_rus","meta"))
 #check_links(join(ROOT_DIR,"enc_eng","meta"))

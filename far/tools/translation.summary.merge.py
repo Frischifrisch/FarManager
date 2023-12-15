@@ -9,7 +9,7 @@ def patch_feed(feed_file_name, lng_id, new_lines):
 		try:
 			id = lines.index(i + '\n')
 		except:
-			print(i + " not in list")
+			print(f"{i} not in list")
 			continue
 
 		id += 1
@@ -27,7 +27,7 @@ def patch_feed(feed_file_name, lng_id, new_lines):
 def read_summary(summary_file_name):
 	lines = {}
 	with open(summary_file_name, "r", encoding='utf-8-sig') as summary_file:
-		for l in summary_file.readlines():
+		for l in summary_file:
 			ls = l.split('|')
 			lines[ls[0].strip()] = ls[1].strip()
 	return lines
